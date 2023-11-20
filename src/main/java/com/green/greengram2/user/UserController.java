@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService service;
 
+    @PostMapping("/signin")
+
+
     @PostMapping("/signup")
     public ResVo postUserSignup(@RequestBody UserSignupDto dto) {
         log.info("dto: {}", dto);
