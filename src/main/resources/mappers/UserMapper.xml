@@ -10,4 +10,10 @@
             , pic = #{pic}
         </if>
     </insert>
+
+    <select id="selUserForSignin">
+        SELECT iuser, upw, nm, pic
+        FROM t_user
+        WHERE uid = #{uid}
+    </select>
 </mapper>

@@ -1,10 +1,7 @@
 package com.green.greengram2.user;
 
 import com.green.greengram2.ResVo;
-import com.green.greengram2.user.model.UserSigninDto;
-import com.green.greengram2.user.model.UserSigninVo;
-import com.green.greengram2.user.model.UserSignupDto;
-import com.green.greengram2.user.model.UserSignupProcDto;
+import com.green.greengram2.user.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
@@ -17,8 +14,21 @@ public class UserService {
     private final UserMapper mapper;
 
     public UserSigninVo userSignin(UserSigninDto dto) {
-        String savedPw = ""; //DB에서 가져온 비밀번호
-        boolean comparedPw = BCrypt.checkpw(dto.getUpw(), savedPw);
+        UserSigninProcVo savedVo = mapper.selUserForSignin(dto);
+
+        UserSigninVo vo = new UserSigninVo();
+        if(savedVo == null) {
+            vo.setResult(2);
+            return vo;
+        } else if(!BCrypt.checkpw(dto.getUpw(), savedVo.getUpw())) {
+            vo.setResult(3);
+            return vo;
+        }
+        vo.setResult(1);
+        vo.setIuser(savedVo.getIuser());
+        vo.setNm(savedVo.getNm());
+        vo.setPic(savedVo.getPic());
+        return vo;
     }
 
     public ResVo userSignup(UserSignupDto dto) {
