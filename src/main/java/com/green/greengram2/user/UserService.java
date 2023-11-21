@@ -17,7 +17,7 @@ public class UserService {
         UserSigninProcVo savedVo = mapper.selUserForSignin(dto);
 
         UserSigninVo vo = new UserSigninVo();
-        if(savedVo == null) {
+        if(savedVo == null) { //아이디 없음
             vo.setResult(2);
             return vo;
         } else if(!BCrypt.checkpw(dto.getUpw(), savedVo.getUpw())) {
