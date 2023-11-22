@@ -13,6 +13,7 @@ public class FeedService {
     private final FeedMapper mapper;
     private final FeedPicsMapper picsMapper;
     private final FeedFavMapper favMapper;
+    private final FeedCommentMapper commentMapper;
 
     public ResVo postFeed(FeedInsDto dto) {
         if(dto.getPics().size() == 0) {
@@ -40,6 +41,17 @@ public class FeedService {
         for(FeedSelVo vo : list) {
             List<String> pics = picsMapper.selFeedPicsAll(vo.getIfeed());
             vo.setPics(pics);
+
+            List<FeedCommentSelVo> comments = commentMapper.selCommentAll(FeedCommentSelDto.builder()
+                                                                            .ifeed(vo.getIfeed())
+                                                                            .startIdx(0)
+                                                                            .rowCount(4)
+                                                                            .build());
+            if(comments.size() == 4) {
+                vo.setIsMoreComment(1);
+                comments.remove(comments.size() - 1);
+            }
+            vo.setComments(comments);
         }
         return list;
     }
@@ -53,5 +65,11 @@ public class FeedService {
         }
         int insAffectedRows = favMapper.insFeedFav(dto);
         return new ResVo(1);
+    }
+
+    //-------------------- FeedComment
+    public ResVo postComment(FeedCommentInsDto dto) {
+        int affectedRows = commentMapper.insComment(dto);
+        return new ResVo(affectedRows);
     }
 }

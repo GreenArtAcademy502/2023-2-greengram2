@@ -42,7 +42,6 @@ public class UserController {
         return service.userSignup(dto); //ResVo객체에 insert한 레코드 pk값을 담아서 응답처리
     }
 
-
     @GetMapping
     @Operation(summary = "유저 정보", description = "프로필 화면에서 사용할 프로필 유저 정보")
     @Parameters(value = {
