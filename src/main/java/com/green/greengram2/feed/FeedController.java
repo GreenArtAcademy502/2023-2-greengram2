@@ -8,6 +8,8 @@ import com.green.greengram2.feed.model.FeedSelVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,8 +60,18 @@ public class FeedController {
 
     //ResVo-result = insert: 1, delete: 0
     @GetMapping("/fav")
+    @Operation(summary = "좋아요 처리", description = "Toggle로 처리함<br>")
+    @Parameters(value = {
+            @Parameter(name="ifeed", description = "feed pk")
+            , @Parameter(name="iuser", description = "로그인한 유저 pk")
+    })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "좋아요 처리: result(1), 좋아요 취소: result(2)")
+    })
     public ResVo toggleFeedFav(FeedFavDto dto) {
         log.info("dto : {}", dto);
         return service.toggleFeedFav(dto);
     }
+
+    //@PostMapping("/comment")
 }
