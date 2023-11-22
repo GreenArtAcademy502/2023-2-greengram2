@@ -1,6 +1,7 @@
 package com.green.greengram2.feed;
 
 import com.green.greengram2.ResVo;
+import com.green.greengram2.feed.model.FeedFavDto;
 import com.green.greengram2.feed.model.FeedInsDto;
 import com.green.greengram2.feed.model.FeedSelDto;
 import com.green.greengram2.feed.model.FeedSelVo;
@@ -36,6 +37,12 @@ public class FeedController {
     }
 
     @GetMapping
+    @Operation(summary = "피드 리스트", description = "전체 피드 리스트, 특정 사용자 프로필 화면에서 사용할 피드 리스트, 한 페이지 30개 피드 가져옴")
+    @Parameters(value = {
+            @Parameter(name="page", description = "page값")
+            , @Parameter(name="loginedIuser", description = "로그인 유저 pk")
+            , @Parameter(name="targetIuser", description = "(생략가능) 특정 사용자 프로필 화면의 주인 유저 pk")
+    })
     public List<FeedSelVo> getFeedAll(int page, int loginedIuser
             , @RequestParam(required=false, defaultValue="0") int targetIuser) {
         log.info("targetIuser : {}", targetIuser);
@@ -47,5 +54,12 @@ public class FeedController {
                         .startIdx((page-1) * ROW_COUNT)
                         .rowCount(ROW_COUNT)
                         .build());
+    }
+
+    //ResVo-result = insert: 1, delete: 0
+    @GetMapping("/fav")
+    public ResVo toggleFeedFav(FeedFavDto dto) {
+        log.info("dto : {}", dto);
+        return service.toggleFeedFav(dto);
     }
 }

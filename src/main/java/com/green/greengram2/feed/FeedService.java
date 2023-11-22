@@ -1,10 +1,7 @@
 package com.green.greengram2.feed;
 
 import com.green.greengram2.ResVo;
-import com.green.greengram2.feed.model.FeedInsDto;
-import com.green.greengram2.feed.model.FeedInsProcDto;
-import com.green.greengram2.feed.model.FeedSelDto;
-import com.green.greengram2.feed.model.FeedSelVo;
+import com.green.greengram2.feed.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +12,7 @@ import java.util.List;
 public class FeedService {
     private final FeedMapper mapper;
     private final FeedPicsMapper picsMapper;
+    private final FeedFavMapper favMapper;
 
     public ResVo postFeed(FeedInsDto dto) {
         if(dto.getPics().size() == 0) {
@@ -44,5 +42,16 @@ public class FeedService {
             vo.setPics(pics);
         }
         return list;
+    }
+
+    //------------------- FeedFav
+    public ResVo toggleFeedFav(FeedFavDto dto) {
+        int delAffectedRows = favMapper.delFeedFav(dto);
+
+        if(delAffectedRows == 1) {
+            return new ResVo(0);
+        }
+        int insAffectedRows = favMapper.insFeedFav(dto);
+        return new ResVo(1);
     }
 }
