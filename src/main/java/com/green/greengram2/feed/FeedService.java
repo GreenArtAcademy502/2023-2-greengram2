@@ -42,6 +42,7 @@ public class FeedService {
             List<String> pics = picsMapper.selFeedPicsAll(vo.getIfeed());
             vo.setPics(pics);
 
+            //4개, 2개, 5개(2), 3개
             List<FeedCommentSelVo> comments = commentMapper.selCommentAll(FeedCommentSelDto.builder()
                                                                             .ifeed(vo.getIfeed())
                                                                             .startIdx(0)
@@ -69,7 +70,21 @@ public class FeedService {
 
     //-------------------- FeedComment
     public ResVo postComment(FeedCommentInsDto dto) {
-        int affectedRows = commentMapper.insComment(dto);
+        FeedCommentInsProcDto pDto = new FeedCommentInsProcDto(dto);
+        int affectedRows = commentMapper.insComment(pDto);
+        return new ResVo(pDto.getIfeedComment());
+    }
+
+    public List<FeedCommentSelVo> getCommentAll(int ifeed) {
+        return commentMapper.selCommentAll(FeedCommentSelDto.builder()
+                                            .ifeed(ifeed)
+                                            .startIdx(4)
+                                            .rowCount(9999)
+                                            .build());
+    }
+
+    public ResVo delComment(FeedCommentDelDto dto) {
+        int affectedRows = commentMapper.delComment(dto);
         return new ResVo(affectedRows);
     }
 }

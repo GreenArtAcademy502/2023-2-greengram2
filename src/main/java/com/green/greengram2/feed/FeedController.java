@@ -75,4 +75,24 @@ public class FeedController {
         log.info("dto : {}", dto);
         return service.postComment(dto);
     }
+
+    @GetMapping("/comment")
+    public List<FeedCommentSelVo> getCommentAll(int ifeed) {
+        return service.getCommentAll(ifeed);
+    }
+
+    @DeleteMapping("/comment")
+    public ResVo delComment(@RequestParam("ifeed_comment") int ifeedComment
+                        , @RequestParam("logined_iuser") int loginedIuser) {
+        log.info("ifeedComment: {}, loginedIuser: {}", ifeedComment, loginedIuser);
+
+        return service.delComment(FeedCommentDelDto.builder()
+                        .ifeedComment(ifeedComment)
+                        .loginedIuser(loginedIuser)
+                        .build());
+    }
+
+
+
+
 }
