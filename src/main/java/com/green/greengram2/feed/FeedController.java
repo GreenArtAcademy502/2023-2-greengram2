@@ -55,6 +55,13 @@ public class FeedController {
                         .build());
     }
 
+    @DeleteMapping
+    public ResVo delFeed(FeedDelDto dto) {
+        log.info("dto : {}", dto);
+        return service.delFeed(dto);
+    }
+
+
     //ResVo-result = insert: 1, delete: 0
     @GetMapping("/fav")
     @Operation(summary = "좋아요 처리", description = "Toggle로 처리함<br>")

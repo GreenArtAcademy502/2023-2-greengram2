@@ -14,8 +14,6 @@
         </set>
     </insert>
 
-
-
     <select id="selFeedAll">
         SELECT
             A.ifeed, A.contents, A.location, A.created_at AS createdAt
@@ -34,4 +32,14 @@
         LIMIT #{startIdx}, #{rowCount}
     </select>
 
+    <select id="selFeed">
+        SELECT ifeed FROM t_feed
+        WHERE ifeed = #{ifeed}
+        AND iuser = #{iuser}
+    </select>
+
+    <delete id="delFeed">
+        DELETE FROM t_feed
+        WHERE ifeed = #{ifeed}
+    </delete>
 </mapper>

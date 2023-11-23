@@ -57,6 +57,18 @@ public class FeedService {
         return list;
     }
 
+    public ResVo delFeed(FeedDelDto dto) {
+        Integer expectedIfeed = mapper.selFeed(dto);
+        if(expectedIfeed == null) { return new ResVo(0); }
+
+        favMapper.delFeedFavByIfeed(dto);
+        commentMapper.delCommentByIfeed(dto);
+        picsMapper.delFeedPicsByIfeed(dto);
+        mapper.delFeed(dto);
+
+        return new ResVo(1);
+    }
+
     //------------------- FeedFav
     public ResVo toggleFeedFav(FeedFavDto dto) {
         int delAffectedRows = favMapper.delFeedFav(dto);

@@ -10,4 +10,5 @@ public interface FeedCommentMapper {
     int insComment(FeedCommentInsProcDto dto);
     List<FeedCommentSelVo> selCommentAll(FeedCommentSelDto dto);
     int delComment(FeedCommentDelDto dto);
+    int delCommentByIfeed(FeedDelDto dto);
 }
